@@ -8,18 +8,20 @@
  
 declare(strict_types=1);
 
+require('PDOConnection.php');
+
 final class Database
 {
     private static $connection;
 
     protected $_options = [];
     
-    public function setConnection(PDO $connection): void
+    public function setConnection(PDOConnection $connection): void
     {
         self::$connection = $connection;     
     }
     
-    public function getConnection(): PDO
+    public function getConnection(): PDOConnection
     {
         return self::$connection;
     }
@@ -44,7 +46,12 @@ final class Database
         }
     }
 
-    private function evaluateConnector()
+    public function disconnect(): void
+    {
+        self::$connection = null;
+    }
+
+    private function evaluateConnector(): object
     {
         $type = strtolower($this->_options['driver']);
 
@@ -52,16 +59,11 @@ final class Database
         
         $dsn = "sqlite:$database";
 
-        $connect = fn () => new \PDO(
+        $connect = fn () => new \PDOConnection(
             $dsn
         );
 
         return $connect;
-    }
-
-    public function disconnect(): void
-    {
-        self::$connection = null;
     }
 
     public function __destruct()

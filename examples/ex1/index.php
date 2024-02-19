@@ -9,13 +9,7 @@
 declare(strict_types=1);
 
 require('Database.php');
-
-$config = [];
-
-$config['sqlite'] = [
-    'driver' => 'sqlite',
-    'database' => './ex1/data/Chinook.db',
-];
+require('./examples/config/config.php');
 
 try {
 
