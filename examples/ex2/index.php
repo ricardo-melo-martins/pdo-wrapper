@@ -8,8 +8,14 @@
  
 declare(strict_types=1);
 
-require('src/Database.php');
+if (! defined('RMM_VERSION')) {
+    require_once dirname(dirname(__DIR__)) . '/autoload.php';
+}
+
+use RMM\Database;
+
 require('./examples/config/config.php');
+
 
 try {
 

@@ -11,7 +11,9 @@
  * 
  */ 
 
-interface IDriver
+namespace RMM\drivers\interfaces;
+
+interface DriverInterface
 {
     public function getConnectionString();
     public function getUsername();

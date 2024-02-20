@@ -11,6 +11,10 @@
  * 
  */ 
 
+namespace RMM\handlers\exception;
+
+use RMM\handlers\exception\interfaces\ExceptionInterface;
+
 final class DatabaseInvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
 {
 }

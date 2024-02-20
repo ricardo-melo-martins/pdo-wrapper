@@ -11,6 +11,8 @@
  * 
  */ 
 
+namespace RMM\drivers;
+
 abstract class DriverAbstract
 {
     protected array $_options = [];

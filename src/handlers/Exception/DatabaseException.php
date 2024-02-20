@@ -11,6 +11,10 @@
  * 
  */ 
 
+namespace RMM\handlers\exception;
+
+use RMM\handlers\exception\interfaces\DatabaseExceptionInterface;
+
 class DatabaseException extends \RuntimeException implements DatabaseExceptionInterface
 {
     private ?string $driver;

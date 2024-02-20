@@ -11,6 +11,10 @@
  * 
  */ 
 
+namespace RMM\handlers\exception\interfaces;
+
+use RMM\handlers\exception\interfaces\ExceptionInterface;
+
 interface DatabaseExceptionInterface extends ExceptionInterface
 {
     public function getDriver(): ?string;

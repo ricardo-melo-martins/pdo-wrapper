@@ -11,6 +11,10 @@
  * 
  */ 
 
+namespace RMM\handlers\exception;
+
+use RMM\handlers\exception\DatabaseException;
+
 class DatabaseDriverNotFoundException extends DatabaseException
 {
     public function __construct(string $message = null, int $code = 0, \Throwable $previous = null, string $driver = null)
