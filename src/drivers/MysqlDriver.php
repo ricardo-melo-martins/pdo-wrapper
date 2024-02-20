@@ -11,6 +11,11 @@
  * 
  */ 
 
+namespace RMM\drivers;
+
+use RMM\drivers\interfaces\DriverInterface as IDriver;
+use RMM\drivers\DriverAbstract;
+
 class MysqlDriver extends DriverAbstract implements IDriver
 {
 

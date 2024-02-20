@@ -11,6 +11,8 @@
  * 
  */ 
 
+namespace RMM\handlers\exception\interfaces;
+
 interface ExceptionInterface extends \Throwable
 {
 }

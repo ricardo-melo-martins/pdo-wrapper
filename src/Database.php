@@ -13,14 +13,14 @@
  
 declare(strict_types=1);
 
-require('PDOConnection.php');
-require('drivers/DriverFactory.php');
+namespace RMM;
 
-require('handlers/exception/interfaces/ExceptionInterface.php');
-require('handlers/exception/interfaces/DatabaseExceptionInterface.php');
-require('handlers/exception/DatabaseException.php');
-require('handlers/exception/DatabaseDriverNotFoundException.php');
-require('handlers/exception/ConnectionNotFoundException.php');
+use RMM\PDOConnection;
+use RMM\drivers\DriverFactory;
+
+use RMM\handlers\exception\ConnectionNotFoundException;
+use RMM\handlers\exception\DatabaseDriverNotFoundException;
+
 
 final class Database
 {
@@ -32,7 +32,7 @@ final class Database
 
     public function setConnection(PDOConnection $connection): void
     {
-        if(!$connection instanceof PDO)
+        if(!$connection instanceof PDOConnection)
         {
             throw new ConnectionNotFoundException();
         }   
@@ -104,7 +104,7 @@ final class Database
 
         $dsn = $this->driver->getConnectionString();
 
-        $connect = fn () => new \PDOConnection(
+        $connect = fn () => new PDOConnection(
             $dsn,
             $this->driver->getUsername(),
             $this->driver->getPassword(),

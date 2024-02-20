@@ -10,7 +10,9 @@
  * @license     https://opensource.org/licenses/mit-license.php  MIT License
  * 
  */ 
- 
+
+namespace RMM;
+
 class PDOConnection extends \PDO {
 
 }

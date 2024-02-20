@@ -11,12 +11,11 @@
  * 
  */ 
 
-require('interfaces/DriverInterface.php');
-require('DriverAbstract.php');
+namespace RMM\drivers;
 
-require('MysqlDriver.php');
-require('SqliteDriver.php');
-require('PgsqlDriver.php');
+use RMM\drivers\MysqlDriver;
+use RMM\drivers\SqliteDriver;
+use RMM\drivers\PgsqlDriver;
 
 class DriverFactory
 {
