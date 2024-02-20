@@ -111,7 +111,13 @@ Retorno será similar ao anterior (mysql)
 
 ## Docker
 
-Acesse o diretório
+É possível encontrar os scripts e ou bancos de dados para rodar em docker estes exemplos em:
+
+https://github.com/ricardo-melo-martins/docker
+
+Lá tem as instruções para "subir" os dumps em poucos comandos
+
+Para utilizar as configurações do exemplo, acesse o diretório
 
 ``` bash
 $ cd .docker/
@@ -125,19 +131,8 @@ $ cp .env.example .env
 
 As variáveis já possuem usuário e senha usados nos exemplos, mas é possível alterar como quiser. Se alterar apenas lembre-se de mudar em `examples/config/config.php` para que os exemplos continuem funcionando. 
 
-Preencha as variáveis de acord
-Para rodar os bancos de dados necessários para validar exemplos execute a instrução
 
-``` bash
-$ docker compose up -d
-
-```
-
-deve ocorrer algo como a imagem abaixo
-
-![docker up](docs/docker-up.png)
-
-No Docker desktop deve aparecer
+Seguindo as instruções terá algo como isso no Docker Desktop ...
 
 ![containers](docs/docker-containers.png)
 
