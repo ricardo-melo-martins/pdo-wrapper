@@ -13,7 +13,7 @@ require('./examples/config/config.php');
 
 try {
 
-    $db = new Database($config['sqlite']);
+    $db = new Database($config['mysql']);
 
     $db->connect();
 
@@ -25,10 +25,12 @@ try {
 // simple example
 $connection = $db->getConnection();
 
-$stmt = $connection->query("SELECT * FROM Employee");
+$query = 'SELECT * from sakila.actor';
+
+$stmt = $connection->query($query);
 
 foreach ($stmt as $row) {
-    echo($row['EmployeeId'].' | '.$row['FirstName'].' | '.$row['LastName'].' | '.$row['Title'] . PHP_EOL );
+    echo($row[0].' | '.$row[1] .PHP_EOL );
 }
 
 unset($db);
