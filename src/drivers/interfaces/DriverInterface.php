@@ -11,6 +11,11 @@
  * 
  */ 
 
-final class DatabaseInvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
+interface IDriver
 {
+    public function getConnectionString();
+    public function getUsername();
+    public function getPassword();
+    public function getFlagsAttributes();
 }
+

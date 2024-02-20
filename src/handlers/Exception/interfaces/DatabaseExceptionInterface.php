@@ -11,6 +11,7 @@
  * 
  */ 
 
-final class DatabaseInvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
+interface DatabaseExceptionInterface extends ExceptionInterface
 {
+    public function getDriver(): ?string;
 }

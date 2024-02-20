@@ -21,3 +21,12 @@ $config['mysql'] = [
     'password'=>'sakila',
 ];
 
+$config['pgsql'] = [
+    'driver'=>'pgsql',
+    'hostname'=>'localhost',
+    'database'=>'sakila',
+    'username'=>'postgres',
+    'password'=>'sakila',
+    'port'=>5432,
+    'charset'=>'utf8'
+];

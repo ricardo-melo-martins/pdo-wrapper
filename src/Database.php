@@ -1,30 +1,34 @@
 <?php
-/*
- * Database PDO Simple Wrapper
+/**
+ * RMM PDO Wrapper
  * 
- * (c) RMM <github.com/ricardo-melo-martins>
+ * Biblioteca para abstração de dados usando PDO para conectar em vários bancos de dados
+ * 
  *
+ * @link        https://github.com/ricardo-melo-martins/pdo-wrapper
+ * @author      Ricardo Melo Martins
+ * @license     https://opensource.org/licenses/mit-license.php  MIT License
+ * 
  */ 
  
 declare(strict_types=1);
 
 require('PDOConnection.php');
-require('ConnectorConfiguration.php');
+require('drivers/DriverFactory.php');
 
-require('handlers/exception/interface/ExceptionInterface.php');
-require('handlers/exception/interface/DatabaseExceptionInterface.php');
+require('handlers/exception/interfaces/ExceptionInterface.php');
+require('handlers/exception/interfaces/DatabaseExceptionInterface.php');
 require('handlers/exception/DatabaseException.php');
 require('handlers/exception/DatabaseDriverNotFoundException.php');
+require('handlers/exception/ConnectionNotFoundException.php');
 
 final class Database
 {
-    private static $driver;
+    private $_driver_name;
+
+    protected $driver; 
 
     private static $connection;
-
-    protected static array $_installed_drivers;
-
-    protected ConnectorConfiguration $connectorConfiguration; 
 
     public function setConnection(PDOConnection $connection): void
     {
@@ -41,33 +45,32 @@ final class Database
         return self::$connection;
     }
     
-    public function setDriver(string $driver): void
+    public function setDriverName(string $driver_name): void
     {
-        $_driver = strtolower($driver);
+        $_driver = strtolower($driver_name);
 
-        if(!in_array($_driver, self::$_installed_drivers))
+        if(!in_array($_driver, PDOConnection::getAvailableDrivers()))
         {
             throw new DatabaseDriverNotFoundException(null, 0, null, $_driver);
         }
 
-        self::$driver = $_driver;
+        $this->_driver_name = $_driver;
     }
 
-    public function getDriver() : string {
-        return self::$driver;
+    public function getDriverName() : string {
+        return $this->_driver_name;
     }
 
-    public function __construct(array $options = []) {
-
-        self::$_installed_drivers = PDOConnection::getAvailableDrivers();
+    public function __construct(array $options = []) 
+    {
 
         if(!isset($options['driver']) || empty($options['driver'])){
             throw new DatabaseDriverNotFoundException(null, 0, null, $options['driver']);
         }
         
-        $this->setDriver($options['driver']);
+        $this->setDriverName($options['driver']);
 
-        $this->connectorConfiguration = new ConnectorConfiguration($options, $this->getDriver());
+        $this->driver = (new DriverFactory($options))->create($this->getDriverName());
  
     }
 
@@ -99,13 +102,13 @@ final class Database
     private function evaluateConnector(): object
     {
 
-        $dsn = $this->connectorConfiguration->getConnectionString();
+        $dsn = $this->driver->getConnectionString();
 
         $connect = fn () => new \PDOConnection(
             $dsn,
-            $this->connectorConfiguration->getUsername(),
-            $this->connectorConfiguration->getPassword(),
-            $this->connectorConfiguration->getFlagsAttributes(),
+            $this->driver->getUsername(),
+            $this->driver->getPassword(),
+            $this->driver->getFlagsAttributes(),
         );
 
         return $connect;

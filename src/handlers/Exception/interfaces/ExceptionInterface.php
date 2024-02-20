@@ -11,6 +11,6 @@
  * 
  */ 
 
-final class DatabaseInvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
+interface ExceptionInterface extends \Throwable
 {
 }
