@@ -23,7 +23,7 @@ require('./examples/config/config.php');
 
 try {
 
-    $db = new Database($config['mysql']);
+    $db = new Database($config['pgsql']);
 
     $db->connect();
 

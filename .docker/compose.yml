@@ -1,0 +1,73 @@
+version: "3.9"
+name: rmm-databases
+
+networks:
+  local:
+    driver: "bridge"
+    name: ${MYSQL_NETWORK_NAME:-rmm_network}
+
+volumes:
+  mysql_db_data:
+    driver: "local"
+    name: "${MYSQL_DB_VOLUME_DATA_NAME:-rmm_mysql_db}"
+  pgsql_db_data:
+    driver: "local"
+    name: "${PGSQL_DB_VOLUME_DATA_NAME:-rmm_pgsql_db}"
+
+
+services:
+  
+  # MySQL
+  mysql:
+    image: mysql:latest
+    container_name: "${MYSQL_DB_CONTAINER_NAME}"
+    command: --default-authentication-plugin=mysql_native_password
+    env_file:
+      - ./.env
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_DB_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${MYSQL_DB_DATABASE:-local}"
+      MYSQL_USER: "${MYSQL_DB_USERNAME}"
+      MYSQL_PASSWORD: "${MYSQL_DB_PASSWORD}"
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-p${MYSQL_DB_ROOT_PASSWORD}"]
+      retries: 3
+      timeout: 5s
+    networks:
+      - local
+    platform: linux/x86_64
+    ports:
+     - ${MYSQL_DB_PORT:-3306}:3306
+    volumes:
+      - mysql_db_data:/var/lib/mysql
+      - ./mysql/scripts/sakila-schema.sql:/docker-entrypoint-initdb.d/01_sakila-schema.sql
+      - ./mysql/scripts/sakila-data.sql:/docker-entrypoint-initdb.d/02_sakila-data.sql
+  
+  # Postgres
+  pgsql:
+
+    image: postgres:latest
+    container_name: "${PGSQL_DB_CONTAINER_NAME:-pgsql_db}"
+    environment:
+      POSTGRES_DB: "${PGSQL_DB_DATABASE:-local}"
+      POSTGRES_USER: "${PGSQL_DB_USERNAME}"
+      POSTGRES_PASSWORD: "${PGSQL_DB_PASSWORD}"
+    healthcheck:
+      test: [
+        "CMD", "pg_isready", "-q",
+        "-d", "${PGSQL_DB_DATABASE:-local}",
+        "-U", "${PGSQL_DB_USERNAME}"
+      ]
+      retries: 3
+      timeout: 5s
+    networks:
+      - local
+    # Map the database container exposed port to the host port.
+    ports:
+     - ${PGSQL_DB_PORT:-5432}:5432
+    volumes:
+      - pgsql_db_data:/var/lib/postgresql/data
+      - ./pgsql/scripts/sakila-schema.sql:/docker-entrypoint-initdb.d/01_sakila-schema.sql
+      - ./pgsql/scripts/sakila-data.sql:/docker-entrypoint-initdb.d/02_sakila-data.sql
