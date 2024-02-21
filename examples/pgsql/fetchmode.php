@@ -18,14 +18,19 @@ if (! defined('RMM_VERSION')) {
 }
 
 use RMM\Database;
+use RMM\PDOConnection;
 use RMM\handlers\exception\DatabaseException;
 
 require('./examples/config/config.php');
 
 try {
 
-    $db = new Database($config['mysql']);
+    $db = new Database($config['pgsql']);
 
+    // https://www.php.net/manual/en/pdostatement.fetch.php
+    // FETCH_LAZY, FETCH_ASSOC, FETCH_NUM, FETCH_BOTH(default), FETCH_NAMED, FETCH_OBJ
+    $db->getDriver()->setDefaultFetchMode(PDOConnection::FETCH_BOTH);
+    
     $db->connect();
 
 } catch (DatabaseException $e) {
@@ -36,6 +41,8 @@ try {
 if($db->isConnected()){
 
     $connection = $db->getConnection();
+
+    echo 'Fetch mode: ' . $connection->getAttribute(constant('PDO::ATTR_DEFAULT_FETCH_MODE')).PHP_EOL;
 
     $query = 'SELECT * from actor LIMIT 10';
 

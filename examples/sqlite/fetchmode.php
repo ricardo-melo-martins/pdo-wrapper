@@ -18,14 +18,19 @@ if (! defined('RMM_VERSION')) {
 }
 
 use RMM\Database;
+use RMM\PDOConnection;
 use RMM\handlers\exception\DatabaseException;
 
 require('./examples/config/config.php');
 
 try {
 
-    $db = new Database($config['mysql']);
+    $db = new Database($config['sqlite']);
 
+    // https://www.php.net/manual/en/pdostatement.fetch.php
+    // FETCH_LAZY, FETCH_ASSOC, FETCH_NUM, FETCH_BOTH(default), FETCH_NAMED, FETCH_OBJ
+    $db->getDriver()->setDefaultFetchMode(PDOConnection::FETCH_ASSOC);
+    
     $db->connect();
 
 } catch (DatabaseException $e) {
@@ -37,12 +42,12 @@ if($db->isConnected()){
 
     $connection = $db->getConnection();
 
-    $query = 'SELECT * from actor LIMIT 10';
+    echo 'Fetch mode: ' . $connection->getAttribute(constant('PDO::ATTR_DEFAULT_FETCH_MODE')).PHP_EOL;
 
-    $stmt = $connection->query($query);
+    $stmt = $connection->query("SELECT * FROM Employee");
 
     foreach ($stmt as $row) {
-        echo($row[0].' | '.$row[1] .PHP_EOL );
+        echo($row['EmployeeId'].' | '.$row['FirstName'].' | '.$row['LastName'].' | '.$row['Title'] . PHP_EOL );
     }
 }
 

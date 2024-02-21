@@ -13,6 +13,7 @@ Simples abstração de banco de dados em Php 8.x usando conector PDO
 
 - PHP 8.x
 - extensões do PDO habilitadas no php.ini `pdo_sqlite`, `pdo_mysql` e `pdo_pgsql`  
+- Docker (opcional)
 
 ## Características
 

@@ -33,13 +33,15 @@ try {
     exit;
 }
 
-// simple example
-$connection = $db->getConnection();
+if($db->isConnected()){
 
-$stmt = $connection->query("SELECT * FROM Employee");
+    $connection = $db->getConnection();
 
-foreach ($stmt as $row) {
-    echo($row['EmployeeId'].' | '.$row['FirstName'].' | '.$row['LastName'].' | '.$row['Title'] . PHP_EOL );
+    $stmt = $connection->query("SELECT * FROM Employee");
+
+    foreach ($stmt as $row) {
+        echo($row['EmployeeId'].' | '.$row['FirstName'].' | '.$row['LastName'].' | '.$row['Title'] . PHP_EOL );
+    }
 }
 
 unset($db);

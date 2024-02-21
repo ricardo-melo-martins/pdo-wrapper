@@ -13,9 +13,38 @@
 
 namespace RMM\drivers;
 
+use RMM\PDOConnection;
+use RMM\handlers\exception\DatabaseException;
+
 abstract class DriverAbstract
 {
     protected array $_options = [];
+
+    protected int $_fetch = PDOConnection::FETCH_BOTH;
+    
+    protected int $_timeout = 5; // 5 segundos
+
+    /**
+     * Atualiza o modo(padrão) de retorno do resultado
+     * 
+     * @link https://www.php.net/manual/en/pdostatement.fetch.php
+     */
+    public function setDefaultFetchMode(int $mode){
+            
+        switch ($mode) {
+            case PDOConnection::FETCH_LAZY:
+            case PDOConnection::FETCH_ASSOC:
+            case PDOConnection::FETCH_NUM:
+            case PDOConnection::FETCH_BOTH:
+            case PDOConnection::FETCH_NAMED:
+            case PDOConnection::FETCH_OBJ:
+                $this->_fetch = $mode;
+                break;
+            default:
+                throw new DatabaseException("Especificação de fetch mode '$mode' é inválido");    
+                break;
+        }
+    }
 
     public function getType() : string {
         return $this->_options['driver'];

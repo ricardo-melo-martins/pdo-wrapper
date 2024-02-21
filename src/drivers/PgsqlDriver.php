@@ -45,8 +45,9 @@ class PgsqlDriver extends DriverAbstract implements IDriver
         $options = [
             \PDO::ATTR_PERSISTENT => true,
             \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
+            \PDO::ATTR_DEFAULT_FETCH_MODE => $this->_fetch,
             \PDO::ATTR_EMULATE_PREPARES   => false,
-            \PDO::ATTR_TIMEOUT => 5
+            \PDO::ATTR_TIMEOUT => $this->_timeout,
         ];
 
         return $options;

@@ -17,6 +17,7 @@ namespace RMM;
 
 use RMM\PDOConnection;
 use RMM\drivers\DriverFactory;
+use RMM\drivers\interfaces\DriverInterface;
 
 use RMM\handlers\exception\DatabaseException;
 use RMM\handlers\exception\ConnectionNotFoundException;
@@ -27,7 +28,7 @@ final class Database
 {
     private $_driver_name;
 
-    protected $driver; 
+    private DriverInterface $driver; 
 
     private static $connection;
 
@@ -62,6 +63,15 @@ final class Database
         return $this->_driver_name;
     }
 
+    public function setDriver(DriverInterface $driver): void
+    {
+        $this->driver = $driver;
+    }
+
+    public function getDriver() : DriverInterface {
+        return $this->driver;
+    }
+
     public function __construct(array $options = []) 
     {
 
@@ -88,6 +98,11 @@ final class Database
             throw new DatabaseException($exception->getMessage(), $exception->getCode());
         
         }
+    }
+
+    public function isConnected()
+    {
+        return ((bool) (self::$connection instanceof PDOConnection));
     }
 
     public function disconnect(): void

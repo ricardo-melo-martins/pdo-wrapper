@@ -33,15 +33,17 @@ try {
     exit;
 }
 
-// simple example
-$connection = $db->getConnection();
+if($db->isConnected()){
 
-$query = 'SELECT * from actor';
+    $connection = $db->getConnection();
 
-$stmt = $connection->query($query);
+    $query = 'SELECT * from actor LIMIT 10';
 
-foreach ($stmt as $row) {
-    echo($row[0].' | '.$row[1] .PHP_EOL );
+    $stmt = $connection->query($query);
+
+    foreach ($stmt as $row) {
+        echo($row[0].' | '.$row[1] .PHP_EOL );
+    }
 }
 
 unset($db);
