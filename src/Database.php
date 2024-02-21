@@ -18,6 +18,7 @@ namespace RMM;
 use RMM\PDOConnection;
 use RMM\drivers\DriverFactory;
 
+use RMM\handlers\exception\DatabaseException;
 use RMM\handlers\exception\ConnectionNotFoundException;
 use RMM\handlers\exception\DatabaseDriverNotFoundException;
 
@@ -84,7 +85,7 @@ final class Database
 
         } catch(\PDOException $exception){
             
-            throw $exception;
+            throw new DatabaseException($exception->getMessage(), $exception->getCode());
         
         }
     }

@@ -18,6 +18,7 @@ if (! defined('RMM_VERSION')) {
 }
 
 use RMM\Database;
+use RMM\handlers\exception\DatabaseException;
 
 require('./examples/config/config.php');
 
@@ -27,8 +28,8 @@ try {
 
     $db->connect();
 
-} catch (\Throwable $th) {
-    print_r($th->getMessage());
+} catch (DatabaseException $e) {
+    print $e->getMessage();
     exit;
 }
 
