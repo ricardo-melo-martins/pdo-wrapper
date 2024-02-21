@@ -35,7 +35,7 @@ use RMM\Database;
 $config = [
     'sqlite'=> [
         'driver' => 'sqlite',
-        'database' => './examples/ex1/data/Chinook.db',
+        'database' => './examples/sqlite/data/Chinook.db',
     ]
 ];
 
@@ -83,7 +83,7 @@ Considere utilizar o Docker para validar facilmente os exemplos para `Mysql` e `
 Para rodar exemplo 1 [`SQLITE`]
 
 ``` bash
-$ php ./examples/ex1/index.php
+$ php ./examples/sqlite/connect.php
 ```
 
 Retorno será algo como isso aqui
@@ -94,7 +94,7 @@ Retorno será algo como isso aqui
 Para rodar exemplo 2 [`MYSQL`]
 
 ``` bash
-$ php ./examples/ex2/index.php
+$ php ./examples/mysql/connect.php
 ```
 
 Retorno será algo como isso aqui
@@ -104,7 +104,7 @@ Retorno será algo como isso aqui
 Para rodar exemplo 3 [`POSTGRES`]
 
 ``` bash
-$ php ./examples/ex3/index.php
+$ php ./examples/pgsql/connect.php
 ```
 
 Retorno será similar ao anterior (mysql)

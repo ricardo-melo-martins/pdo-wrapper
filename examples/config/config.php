@@ -15,7 +15,7 @@ $config = [];
 
 $config['sqlite'] = [
     'driver' => 'sqlite',
-    'database' => './examples/ex1/data/Chinook.db',
+    'database' => './examples/sqlite/data/Chinook.db',
 ];
 
 $config['mysql'] = [
